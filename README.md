@@ -35,15 +35,15 @@ La respuesta del equipo de soporte fue inmediata y sin verificaciones adicionale
 
 Con la cuenta completamente activa, se procedió a evaluar la funcionalidad de envío de SMS. La interfaz de usuario, como se observa en la siguiente imagen, permite seleccionar entre una amplia gama de números telefónicos de diferentes países y operadoras:
 
-![Interfaz de Envío SMS](sms/Captura3.png)
+![Interfaz de Envío SMS](img/sms/Captura3.png)
 
 Esta flexibilidad en la selección del número origen, combinada con la posibilidad de personalizar el nombre del remitente, crea un escenario ideal para campañas de smishing. Durante las pruebas controladas, se envió un SMS al dispositivo personal, obteniendo la siguiente confirmación:
 
-![Confirmación de Envío](sms/Captura4.png)
+![Confirmación de Envío](img/sms/Captura4.png)
 
 El resultado final, recibido en el dispositivo móvil, demuestra la efectividad de la suplantación:
 
-![SMS Recibido](sms/Captura5.png)
+![SMS Recibido](img/sms/Captura5.png)
 
 La capacidad de mostrar "Illyvoip" como remitente, o potencialmente cualquier otro nombre que un atacante elija, representa un riesgo significativo para la seguridad de los usuarios.
 
@@ -51,11 +51,11 @@ La capacidad de mostrar "Illyvoip" como remitente, o potencialmente cualquier ot
 
 La investigación se extendió hacia las funcionalidades de voz, donde se descubrieron capacidades aún más preocupantes. El sistema permite configurar parámetros SIP y en algunos casos modificar el Caller ID, como se observa en la siguiente configuración:
 
-![Configuración de Llamada](llamadas/Captura6.png)
+![Configuración de Llamada](img/llamadas/Captura6.png)
 
 Para demostrar este riesgo de manera controlada y ética, se utilizó el número de un colaborador (con consentimiento explícito) para realizar una llamada al dispositivo personal. El resultado, visible en la siguiente captura, fue contundente:
 
-![Llamada Recibida](llamadas/Captura7.png)
+![Llamada Recibida](img/llamadas/Captura7.png)
 
 El teléfono mostró el número del colaborador como remitente de la llamada, a pesar de que él no era quien realmente estaba realizando la comunicación. Esta capacidad de suplantación representa un riesgo extremadamente alto para ataques de vishing y podría ser explotada para campañas de extorsión o ingeniería social.
 
@@ -125,3 +125,4 @@ El compromiso ético ha sido fundamental en toda esta investigación, garantizan
 **Última actualización**: Diciembre 2024
 
 </div>
+
