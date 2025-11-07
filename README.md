@@ -1,201 +1,74 @@
-# IllyVoIP Security Research: Análisis de Vulnerabilidades en Servicios de VoIP
+# Investigación de Seguridad: Análisis de Spoofing en SMS y Llamadas VoIP
 
-![Estado](https://img.shields.io/badge/Estado-Investigación_Completada-green)
-![Entorno](https://img.shields.io/badge/Entorno-Controlado_Laboratorio-blue)
-![Propósito](https://img.shields.io/badge/Propósito-Educativo_Preventivo-orange)
+<div align="center">
 
-## 📖 Introducción
+![Estado](https://img.shields.io/badge/ESTADO-COMPLETADO-success)
+![Entorno](https://img.shields.io/badge/ENTORNO-LABORATORIO_CONTROLADO-informational)
+![Licencia](https://img.shields.io/badge/LICENCIA-EDUCATIVA-blue)
+![Plataforma](https://img.shields.io/badge/PLATAFORMA-IllyVoIP-orange)
 
-Esta investigación documenta un análisis de seguridad realizado sobre la plataforma **IllyVoIP**, demostrando vulnerabilidades críticas en servicios de telefonía IP que podrían ser explotadas por actores maliciosos para realizar ataques de suplantación de identidad (spoofing) a gran escala.
+</div>
 
-**🔒 Aviso Legal**: Todas las pruebas se realizaron en un entorno completamente controlado, con dispositivos propios, números telefónicos autorizados y consentimiento explícito de todas las partes involucradas.
+## Resumen Ejecutivo
 
-## 🎯 Objetivos de la Investigación
+Esta investigación de seguridad se centra en el análisis de vulnerabilidades críticas en servicios de telefonía IP, específicamente en la plataforma IllyVoIP. El estudio demuestra cómo actores maliciosos pueden explotar estas vulnerabilidades para realizar ataques de suplantación de identidad a través de SMS y llamadas telefónicas. Todo el proceso de investigación se llevó a cabo en un entorno completamente controlado, utilizando exclusivamente dispositivos y números telefónicos propios o con consentimiento explícito, manteniendo en todo momento un estricto código ético y con fines puramente educativos y de concienciación en ciberseguridad.
 
-- Analizar el proceso de registro y verificación en servicios VoIP
-- Identificar vectores de ataque mediante SMS y llamadas telefónicas
-- Demostrar la facilidad de suplantación de números legítimos
-- Documentar medidas de protección para usuarios finales
-- Concienciar sobre riesgos en comunicaciones no solicitadas
+## Metodología de Investigación
 
-## 🛠️ Metodología de Pruebas
+El proceso de investigación comenzó con el registro en la plataforma IllyVoIP, donde se pudo observar que el sistema permite el registro con datos personales sin una verificación rigurosa de identidad. Este primer hallazgo ya revela una vulnerabilidad significativa: la posibilidad de que un atacante utilice información falsa o robada para crear una cuenta a nombre de otra persona sin mayores obstáculos.
 
-### 1. Registro en la Plataforma
+Tras completar el registro, se siguió el procedimiento documentado abriendo un ticket de soporte para solicitar el crédito de prueba de 1 euro que ofrece la plataforma. La respuesta del equipo de soporte fue inmediata y sin verificaciones adicionales, otorgando el crédito solicitado sin cuestionar la identidad del usuario o el propósito del uso. Es importante destacar que, aunque el crédito se acredita instantáneamente, la plataforma impone una restricción de 24 horas antes de permitir el uso completo de los servicios, lo que parece ser una medida anti-fraude básica pero insuficiente.
 
-**Captura1.png** - Proceso de registro en IllyVoIP:
+## Análisis de Vulnerabilidades en SMS
 
-- Registro con email corporativo
-- **Vulnerabilidad identificada**: Posibilidad de usar datos falsos o robados
-- Verificación mínima de identidad del usuario
-- Sistema CAPTCHA básico que no previene registros maliciosos
+Una vez activada la cuenta completamente, se procedió a evaluar la funcionalidad de envío de SMS. La interfaz de usuario permite seleccionar entre una amplia gama de números telefónicos de diferentes países y operadoras, todos disponibles para uso inmediato sin verificación adicional. Durante las pruebas controladas, se envió un SMS desde uno de estos números al dispositivo móvil personal, utilizando un mensaje simple de "Saludos" para verificar el funcionamiento.
 
-### 2. Obtención de Crédito de Prueba
+Los resultados obtenidos son alarmantes desde una perspectiva de seguridad. El SMS llegó al teléfono mostrando "Illyvoip" como remitente, pero la verdadera preocupación radica en la capacidad de personalizar este campo. Un atacante podría fácilmente configurar el nombre del remitente para simular ser una entidad bancaria, una institución gubernamental o cualquier organización legítima. La combinación de números con prefijos internacionales creíbles y la posibilidad de personalizar el nombre del remitente crea el escenario perfecto para campañas de smishing (SMS phishing) altamente convincentes y difíciles de detectar para usuarios no técnicos.
 
-**Captura2.png** - Interacción con soporte:
+## Investigación de Llamadas Suplantadas
 
-- Apertura de ticket solicitando crédito de prueba
-- Respuesta automática otorgando 1€ sin verificación adicional
-- **Hallazgo crítico**: Credibilidad inmediata sin validación rigurosa
+La investigación se extendió hacia las funcionalidades de voz, donde se descubrieron capacidades aún más preocupantes. El sistema permite en ciertos escenarios configurar parámetros SIP y modificar el Caller ID, aunque no siempre funciona de manera consistente. En algunos casos específicos, es posible realizar llamadas desde números que teóricamente no deberían estar disponibles para el usuario, probablemente debido a fallos de configuración en las rutas SIP o inconsistencias en las validaciones del sistema.
 
-### 3. Envío de SMS Suplantados
+Para demostrar este riesgo de manera controlada y ética, se utilizó el número de teléfono de un colaborador -con su consentimiento explícito y presencia física durante todas las pruebas- para realizar una llamada al dispositivo personal. El resultado fue contundente: el teléfono mostró el número del colaborador como remitente de la llamada, a pesar de que él no era quien realmente estaba realizando la llamada. Esta capacidad de suplantación de números conocidos o legítimos representa un riesgo extremadamente alto para ataques de vishing (voice phishing) y podría ser explotada para campañas de extorsión o ingeniería social avanzada.
 
-**Carpeta `sms/`** - Pruebas de envío de mensajes:
+## Escenarios de Ataque y Impacto Potencial
 
-- **Captura3.png**: Interfaz de envío con selección de número origen
-- **Captura4.png**: Confirmación de envío exitoso
-- **Captura5.png**: SMS recibido en dispositivo objetivo mostrando "Illyvoip" como remitente
+La gravedad de estas vulnerabilidadess no puede subestimarse. Un atacante con conocimientos técnicos moderados podría registrar una cuenta con datos falsos, obtener crédito de prueba de manera sencilla, y comenzar inmediatamente campañas de suplantación masiva. Las implicaciones de seguridad son enormes y abarcan múltiples escenarios de riesgo.
 
-**🔍 Hallazgos en SMS:**
+En el escenario de suplantación bancaria, un atacante podría enviar SMS masivos aparentando venir de entidades financieras legítimas, redirigiendo a las víctimas hacia sitios de phishing diseñados para robar credenciales de acceso. En el caso de extorsión telefónica, la capacidad de suplantar números oficiales de autoridades o empresas permitiría a los atacantes solicitar información personal confidencial o realizar demandas de pago bajo falsas pretensiones.
 
-- Selección libre de número origen entre múltiples países
-- Posibilidad de personalizar nombre del remitente
-- Envío inmediato sin verificación de propiedad del número
-- Capacidad de simular entidades legítimas (bancos, servicios, etc.)
+Otro escenario preocupante es el de campañas de desinformación, donde los atacantes podrían utilizar números legítimos para difundir mensajes fraudulentos, dañando la reputación de empresas y creando situaciones de caos social. La combinación de registros con datos falsos, obtención inmediata de crédito, capacidad de modificar el Caller ID y la ausencia de verificaciones rigurosas crea un ecosistema perfecto para el fraude telefónico organizado.
 
-### 4. Llamadas Telefónicas Suplantadas
+## Fundamentos Técnicos de las Vulnerabilidades
 
-**Carpeta `llamadas/`** - Pruebas de suplantación en llamadas:
+La posibilidad de realizar estas suplantaciones tiene sus raíces en deficiencias estructurales de los protocolos de voz sobre IP. Los protocolos VoIP como SIP y RTP fueron diseñados primordialmente para garantizar funcionalidad y compatibilidad, relegando aspectos de seguridad a un segundo plano. La suplantación es técnicamente posible debido a múltiples factores interconectados.
 
-- **Captura6.png**: Configuración SIP y Caller ID modificable
-- **Captura7.png**: Llamada recibida mostrando número suplantado
+Entre estos factores destacan la falta de autenticación estricta en muchos carriers, que confían ciegamente en la información del Caller ID recibida; las configuraciones permisivas en routers SIP que no validan adecuadamente el origen real de las llamadas; la interconexión de redes con diferentes niveles de seguridad entre proveedores; y la necesidad de mantener compatibilidad retroactiva con sistemas legacy que carecen de mecanismos de seguridad modernos.
 
-**🔍 Hallazgos en Llamadas:**
+Además, la economía competitiva de los servicios VoIP lleva a muchos proveedores a priorizar la facilidad de uso y la accesibilidad sobre la seguridad. Esta dinámica de mercado resulta en prácticas como la minimización de fricción en el registro, la oferta de pruebas gratuitas inmediatas sin verificaciones robustas, y el mantenimiento de precios bajos mediante el recorte de controles de seguridad esenciales.
 
-- Modificación del Caller ID en algunos escenarios
-- Llamadas desde números no asociados al usuario real
-- Posibilidad de explotar fallos de configuración en rutas SIP
+## Recomendaciones de Seguridad
 
-## ⚠️ Riesgos Identificados
+Para los usuarios finales, esta investigación refuerza la necesidad crítica de mantener un escepticismo saludable hacia cualquier comunicación no solicitada, incluso cuando aparenta venir de números conocidos o entidades legítimas. Se recomienda encarecidamente no proporcionar información sensible por teléfono o mediante enlaces recibidos por SMS sin verificar previamente la autenticidad a través de canales alternativos oficiales.
 
-### Alto Impacto:
+Para los proveedores de servicios de telecomunicaciones, este estudio evidencia la urgente necesidad de implementar protocolos de autenticación más robustos y sistemas de verificación de identidad estrictos. Mecanismos como STIR/SHAKEN en Norteamérica representan pasos en la dirección correcta, pero su implementación global sigue siendo inconsistente y fragmentada.
 
-- **Smishing (SMS Phishing)**: Envío masivo de mensajes fraudulentos
-- **Vishing (Voice Phishing)**: Llamadas suplantando entidades legítimas
-- **Suplantación de Identidad**: Uso de números oficiales de bancos/instituciones
-- **Recolección de Credenciales**: Ingeniería social avanzada
+Los desarrolladores de plataformas VoIP deben priorizar la implementación de autenticación multifactor, la validación estricta de datos de registro, auditorías regulares de configuraciones SIP y sistemas de monitorización proactiva para detectar intentos de spoofing. La seguridad debe integrarse desde el diseño inicial de los sistemas, no como una capa adicional posterior.
 
-### Factores Agravantes:
+## Conclusión y Reflexiones Finales
 
-- Registro con datos falsos o robados
-- Verificación mínima de identidad
-- Crédito inmediato sin validación
-- Latencia de 24 horas antes de activación completa
+Esta investigación demuestra de manera tangible cómo servicios legítimos de VoIP pueden ser weaponizados para fines maliciosos cuando no se implementan controles de seguridad adecuados. La facilidad con que se pueden eludir las medidas de verificación básicas y la potencia de las capacidades de suplantación disponibles representan una amenaza significativa para la seguridad de las comunicaciones telefónicas.
 
-## 🎭 Escenarios de Ataque Potenciales
+Lo más preocupante es que IllyVoIP no constituye un caso aislado. Existen numerosas plataformas similares en el mercado, muchas de ellas con controles de seguridad aún más laxos y funcionalidades potencialmente más peligrosas. El conocimiento de estas técnicas y vulnerabilidades es fundamental tanto para desarrollar mejores defensas como para educar al público general sobre los riesgos en el panorama moderno de las telecomunicaciones.
 
-### Caso 1: Suplantación Bancaria
-
-```
-Atacante → Registro anónimo → Solicita crédito → Envía SMS masivos
-simulando banco → Redirige a phishing → Roba credenciales
-```
-
-### Caso 2: Extorsión Telefónica
-
-```
-Atacante → Configura Caller ID oficial → Realiza llamadas masivas
-→ Solicita datos personales → Ejecuta fraudes
-```
-
-### Caso 3: Campaña de Desinformación
-
-```
-Atacante → Usa números legítimos → Difunde mensajes fraudulentos
-→ Daña reputación de empresas → Crea caos social
-```
-
-## 🛡️ Recomendaciones de Seguridad
-
-### Para Usuarios Finales:
-
-- **Verificar siempre**: Contactar mediante canales oficiales conocidos
-- **No confiar en Caller ID**: Los números pueden ser suplantados
-- **Desconfiar de enlaces**: No hacer clic en SMS no solicitados
-- **Validar identidad**: En llamadas sensibles, colgar y llamar al número oficial
-
-### Para Proveedores de Servicio:
-
-- Implementar verificación rigurosa de identidad
-- Establecer límites estrictos para nuevos usuarios
-- Monitorizar patrones de uso sospechosos
-- Validar propiedad de números utilizados como origen
-
-### Para Desarrolladores:
-
-- Implementar autenticación multifactor
-- Validar estrictamente datos de registro
-- Auditar regularmente configuraciones SIP
-- Monitorizar intentos de spoofing
-
-## 🔬 Explicación Técnica: ¿Por Qué Es Posible?
-
-### Fallos en Protocolos de Voz
-
-Los protocolos VoIP (SIP, RTP) fueron diseñados para funcionalidad, no seguridad. La suplantación es posible debido a:
-
-1. **Falta de Autenticación Estricta**: Muchos carriers confían en el Caller ID recibido
-2. **Configuraciones Permisivas**: Routers SIP que no validan origen real
-3. **Interconexión de Redes**: Diferentes niveles de seguridad entre proveedores
-4. **Compatibilidad Retroactiva**: Mantener soporte para sistemas legacy
-
-### Economía de los Servicios VoIP
-
-La competencia agresiva lleva a proveedores a:
-
-- Minimizar fricción en el registro
-- Ofrecer pruebas gratuitas inmediatas
-- Priorizar funcionalidad sobre seguridad
-- Mantener precios bajos recortando controles
-
-## 📊 Estructura del Repositorio
-
-```
-illyvoip-security-research/
-│
-├── README.md
-├── img/
-│   ├── Captura1.png          # Página de registro
-│   ├── Captura2.png          # Ticket de soporte
-│   ├── sms/
-│   │   ├── Captura3.png      # Interfaz envío SMS
-│   │   ├── Captura4.png      # Confirmación envío
-│   │   └── Captura5.png      # SMS recibido
-│   └── llamadas/
-│       ├── Captura6.png      # Configuración llamada
-│       └── Captura7.png      # Llamada recibida
-└── references/
-    └── video_tutorial.txt    # Enlace referencia
-```
-
-## 🚨 Conclusión y Impacto
-
-Esta investigación demuestra la alarmante facilidad con que actores maliciosos pueden explotar servicios VoIP legítimos para realizar ataques de suplantación a escala industrial. La combinación de:
-
-- Registro con datos falsos
-- Obtención inmediata de crédito
-- Capacidad de modificar Caller ID
-- Ausencia de verificación rigurosa
-
-Crea un ecosistema perfecto para el fraude telefónico. Existen cientos de servicios similares a IllyVoIP con vulnerabilidades equivalentes o peores.
-
-## 📞 Responsabilidad Ética
-
-Este proyecto se rigió por estrictos principios éticos:
-
-- ✅ Consentimiento explícito de todas las partes
-- ✅ Entorno 100% controlado
-- ✅ Sin afectación a terceros
-- ✅ Propósito educativo y preventivo
-- ✅ Reporte responsable a proveedores
-
-## 📚 Referencias
-
-- [Video tutorial referencia](https://www.youtube.com/watch?v=4yIohOXgzAQ&t=3s)
-- Documentación técnica protocolos VoIP
-- Best practices OWASP para comunicaciones seguras
+El compromiso ético ha sido fundamental throughout toda esta investigación, garantizando que todas las pruebas se realizaron con consentimiento explícito, en entornos controlados y sin afectación a terceros. Este enfoque responsable permite exponer importantes vulnerabilidades de seguridad mientras se mantienen los más altos estándares éticos en la investigación de ciberseguridad.
 
 ---
 
-**🔐 Recordatorio**: El conocimiento aquí documentado debe usarse exclusivamente para fortalecer medidas de seguridad y protección. La reproducción de estas técnicas sin consentimiento es ilegal y éticamente reprobable.
+<div align="center">
 
-_Última actualización: [Fecha]_
+**⚠️ AVISO LEGAL**: Esta investigación tiene fines exclusivamente educativos. El conocimiento aquí documentado debe utilizarse únicamente para fortalecer medidas de seguridad y protección. La reproducción de estas técnicas sin el consentimiento explícito de todas las partes involucradas es ilegal y éticamente reprobable.
+
+**Última actualización**: Diciembre 2024
+
+</div>
