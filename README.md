@@ -122,7 +122,8 @@ El compromiso ético ha sido fundamental en toda esta investigación, garantizan
 
 **🔐 IMPORTANTE**: Esta investigación tiene fines exclusivamente educativos. El conocimiento documentado debe utilizarse únicamente para fortalecer medidas de seguridad. La reproducción de estas técnicas sin consentimiento es ilegal y éticamente reprobable.
 
-**Última actualización**: Diciembre 2024
+**Última actualización**: Noviembre 2025
 
 </div>
+
 
